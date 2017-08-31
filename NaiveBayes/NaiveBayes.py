@@ -2,7 +2,6 @@
 import numpy as np 
 import pandas as pd 
 from sklearn.model_selection import train_test_split
-from MachineLearning.datasets.iris import load_data
 
 class GaussianNB():
     def __init__(self):
@@ -77,4 +76,5 @@ if __name__ == '__main__':
     #     if i == j:
     #         k += 1
     # print 'accuracy:',float(k)/len(y_test)
-    pass 
+    pass
+   
