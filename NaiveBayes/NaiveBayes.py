@@ -60,21 +60,15 @@ class GaussianNB():
 
 
 if __name__ == '__main__':
-    # clf = GaussianNB()
-    # data = pd.read_csv('/home/coffee/study/MachineLearning/KNN/iris.data',header=None)
-    # iris_types = data[4].unique()
-    # for i, iris_type in enumerate(iris_types):
-    #     data.set_value(data[4] == iris_type, 4, i)
-    # x = data.iloc[:, :4]
-    # y = data.iloc[:,-1].astype(np.int)
-    # x = np.array(x)
-    # y = np.array(y)
-    # x, x_test, y, y_test = train_test_split(x, y, train_size=0.7, random_state=0)
-    # clf.fit(x,y)
-    # k = 0
-    # for i,j in zip(y_test,clf.predict(x_test)):
-    #     if i == j:
-    #         k += 1
-    # print 'accuracy:',float(k)/len(y_test)
-    pass
-   
+    clf = GaussianNB()
+    import sys
+    sys.path.append('/home/coffee/study/MachineLearning/')
+    from datasets.iris import load_data
+    x,y =load_data()
+    x, x_test, y, y_test = train_test_split(x, y, train_size=0.7, random_state=0)
+    clf.fit(x,y)
+    k = 0
+    for i,j in zip(y_test,clf.predict(x_test)):
+        if i == j:
+            k += 1
+    print 'accuracy:',float(k)/len(y_test)
