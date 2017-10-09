@@ -21,6 +21,10 @@ class LogisticRegression:
                 return weigh
             elif optimizers == 'SGD':
                 for i in xrange(max_iter):
+                    if batch_size == None:
+                        raise ValueError('Please set batch_size')
+                    if batch_size>m:
+                        raise ValueError('batch_size is too large')
                     index = np.random.choice(m,batch_size) #随机抽样batch_size大小　每次迭代只用batch_size大小去更新权重
                     error = y[index]-self.sigmoid(x[index]*weigh)
                     weigh = weigh + learning_rate*x[index].T*error
@@ -35,6 +39,10 @@ class LogisticRegression:
                 return weigh
             elif optimizers == 'SGD':
                 for i in xrange(max_iter):
+                    if batch_size == None:
+                        raise ValueError('Please set batch_size')
+                    if batch_size>m:
+                        raise ValueError('batch_size is too large')
                     index = np.random.choice(m,batch_size) #随机抽样batch_size大小　每次迭代只用batch_size大小去更新权重
                     error = y[index]-self.sigmoid(x[index]*weigh)
                     weigh = weigh + learning_rate*(x[index].T*error + lambda_*weigh/m)
@@ -54,6 +62,7 @@ class LogisticRegression:
         lambda_:正则项参数
         max_iter:最大迭代次数
         optimizers:优化器 SGD,BGD
+        batch_size:使用SGD时 batch大小
         '''
         self.weigh = self.__gradAscend(x,y,learning_rate,penalty,lambda_,max_iter,optimizers,batch_size)
 
@@ -87,7 +96,7 @@ if __name__ == '__main__':
     y_test = y[50:]
     model = LogisticRegression()
     np.random.seed(45)
-    model.fit(x_train,y_train,learning_rate=0.01,max_iter=300,penalty='l2',lambda_=1,optimizers='SGD',batch_size=40)
+    model.fit(x_train,y_train,learning_rate=0.01,max_iter=300,penalty='l2',lambda_=1,optimizers='SGD',batch_size=200)
     result = model.predict(x_test)
     l = len(result)
     k = 0
