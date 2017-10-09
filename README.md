@@ -6,3 +6,5 @@ study ML by python
 [KNN](https://github.com/Coffeexiudou/MachineLearning/tree/master/KNN) K近邻算法
 
 [NaiveBayes](https://github.com/Coffeexiudou/MachineLearning/tree/master/NaiveBayes) NaiveBayes朴素贝叶斯
+
+[LogisticRegression](https://github.com/Coffeexiudou/MachineLearning/tree/master/LogisticRegression) 逻辑斯特回归　二分类
