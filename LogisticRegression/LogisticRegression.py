@@ -10,6 +10,7 @@ class LogisticRegression:
 
     def __gradAscend(self,x,y,learning_rate,penalty,lambda_,max_iter,optimizers,batch_size):
         m,n = np.shape(x)
+        print m 
         b = np.ones(m)  
         x = np.mat(np.column_stack((b,x))) #添加偏置b　m*(n+1)
         weigh = np.mat(np.ones((n+1,1))) #权值矩阵 (n+1)*1  包括w0
@@ -45,7 +46,7 @@ class LogisticRegression:
                         raise ValueError('batch_size is too large')
                     index = np.random.choice(m,batch_size) #随机抽样batch_size大小　每次迭代只用batch_size大小去更新权重
                     error = y[index]-self.sigmoid(x[index]*weigh)
-                    weigh = weigh + learning_rate*(x[index].T*error + lambda_*weigh/m)
+                    weigh = weigh + learning_rate*(x[index].T*error + lambda_*weigh/batch_size)
                 return weigh
             else:
                 raise NameError('Just support SGD and BGD')
@@ -96,7 +97,7 @@ if __name__ == '__main__':
     y_test = y[50:]
     model = LogisticRegression()
     np.random.seed(45)
-    model.fit(x_train,y_train,learning_rate=0.01,max_iter=300,penalty='l2',lambda_=1,optimizers='SGD',batch_size=200)
+    model.fit(x_train,y_train,learning_rate=0.01,max_iter=300,penalty='l2',lambda_=1,optimizers='SGD',batch_size=20)
     result = model.predict(x_test)
     l = len(result)
     k = 0
