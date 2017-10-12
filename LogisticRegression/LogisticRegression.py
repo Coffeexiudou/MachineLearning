@@ -1,5 +1,6 @@
 #coding=utf-8
 import numpy as np 
+import pandas as pd 
 
 class LogisticRegression:
     def __init__(self):
@@ -7,6 +8,12 @@ class LogisticRegression:
 
     def sigmoid(self,x):
         return 1.0/(1+np.exp(-x))
+
+    def sgn(self,weigh):
+        #绝对值的导数，x>0,为１，x<0,为-1,x=0,为０
+        weigh = pd.DataFrame(weigh)
+        weigh = weigh.applymap(lambda x:1 if x>0 else -1 if x<0 else 0)
+        return np.mat(weigh)
 
     def __gradAscend(self,x,y,learning_rate,penalty,lambda_,max_iter,optimizers,batch_size):
         m,n = np.shape(x)
@@ -18,7 +25,7 @@ class LogisticRegression:
             if optimizers == 'BGD':
                 for i in xrange(max_iter):
                     error = y-self.sigmoid(x*weigh)
-                    weigh = weigh + learning_rate*x.T*error  #梯度上升 似然函数求最大值
+                    weigh = weigh + learning_rate*x.T*error  #梯度上升 似然函数求最大值 
                 return weigh
             elif optimizers == 'SGD':
                 for i in xrange(max_iter):
@@ -47,6 +54,24 @@ class LogisticRegression:
                     index = np.random.choice(m,batch_size) #随机抽样batch_size大小　每次迭代只用batch_size大小去更新权重
                     error = y[index]-self.sigmoid(x[index]*weigh)
                     weigh = weigh + learning_rate*(x[index].T*error + lambda_*weigh/batch_size)
+                return weigh
+            else:
+                raise NameError('Just support SGD and BGD')
+        elif penalty == 'l1':
+            if optimizers == 'BGD':
+                for i in xrange(max_iter):
+                    error = y-self.sigmoid(x*weigh)
+                    weigh = weigh + learning_rate*(x.T*error + lambda_*self.sgn(weigh)/m)
+                return weigh
+            elif optimizers == 'SGD':
+                for i in xrange(max_iter):
+                    if batch_size == None:
+                        raise ValueError('Please set batch_size')
+                    if batch_size>m:
+                        raise ValueError('batch_size is too large')
+                    index = np.random.choice(m,batch_size) #随机抽样batch_size大小　每次迭代只用batch_size大小去更新权重
+                    error = y[index]-self.sigmoid(x[index]*weigh)
+                    weigh = weigh + learning_rate*(x[index].T*error + lambda_*self.sgn(weigh)/batch_size)
                 return weigh
             else:
                 raise NameError('Just support SGD and BGD')
@@ -97,7 +122,7 @@ if __name__ == '__main__':
     y_test = y[50:]
     model = LogisticRegression()
     np.random.seed(45)
-    model.fit(x_train,y_train,learning_rate=0.01,max_iter=300,penalty='l2',lambda_=1,optimizers='SGD',batch_size=20)
+    model.fit(x_train,y_train,learning_rate=0.01,max_iter=300,penalty='l1',lambda_=10,optimizers='SGD',batch_size=20)
     result = model.predict(x_test)
     l = len(result)
     k = 0
