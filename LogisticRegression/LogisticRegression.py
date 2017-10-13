@@ -81,8 +81,8 @@ class LogisticRegression:
     def fit(self,x,y,learning_rate=0.01,penalty=None,lambda_=None,max_iter=100,optimizers='BGD',batch_size = None):
         '''
         parameters:
-        x:train_data shape:m*n
-        y:train_label shape:m*1
+        x:train_data shape:m*n np.mat
+        y:train_label shape:m*1 np.mat 
         learning_rate:学习率
         penalty:正则项　只能l2
         lambda_:正则项参数
