@@ -84,7 +84,7 @@ class LogisticRegression:
         x:train_data shape:m*n np.mat
         y:train_label shape:m*1 np.mat 
         learning_rate:学习率
-        penalty:正则项　只能l2
+        penalty:正则项　 l1或l2
         lambda_:正则项参数
         max_iter:最大迭代次数
         optimizers:优化器 SGD,BGD
