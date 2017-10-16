@@ -17,7 +17,6 @@ class LogisticRegression:
 
     def __gradAscend(self,x,y,learning_rate,penalty,lambda_,max_iter,optimizers,batch_size):
         m,n = np.shape(x)
-        print m 
         b = np.ones(m)  
         x = np.mat(np.column_stack((b,x))) #添加偏置b　m*(n+1)
         weigh = np.mat(np.ones((n+1,1))) #权值矩阵 (n+1)*1  包括w0
