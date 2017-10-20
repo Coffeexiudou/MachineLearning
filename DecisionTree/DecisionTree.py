@@ -27,8 +27,31 @@ class DecisionTree:
         return self.tree
 
     def predict(self,X):
-        pass 
-        
+        if self.tree == None:
+            raise ValueError('Please fit first')
+        if isinstance(X,pd.DataFrame):
+            pass
+        else:
+            try:
+                X = pd.DataFrame(X)
+            except:
+                raise TypeError('pandas.DataFrame required for X')
+        def __classify(tree,sample):
+            firstFeatureIndex = tree.keys()[0]
+            firstFeatureDict = tree[firstFeatureIndex]
+            featureVal = sample[firstFeatureIndex]
+            value = firstFeatureDict[featureVal]
+            if isinstance(value,dict):
+                label = __classify(value,sample)
+            else:
+                label = value
+            return label
+        results = []
+        for i in xrange(X.shape[0]):
+            results.append(__classify(self.tree,X.loc[i]))
+        return results
+
+                
     def __compute_entropy(self,p):
         """
         计算信息熵，底数为e
@@ -97,9 +120,11 @@ class DecisionTree:
 
 if __name__ == '__main__':
     a = DecisionTree()
-    x = np.array([[1,1,1,1,1,1],[2,1,2,1,1,1],[2,1,1,1,1,1],[1,1,2,1,1,1],[3,1,1,1,1,1],[1,2,1,1,2,2],[2,2,1,2,2,2],[2,2,1,1,2,1],[2,2,2,2,2,1],[1,3,3,1,3,2],[3,3,3,3,3,1],[3,1,1,3,3,2],[1,2,1,2,1,1],[3,2,2,2,1,1],[2,2,1,1,2,2],[3,1,1,3,3,1],[1,1,2,2,2,1]])
-    y = np.array([1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0])
+    x = np.array([[2,1,2,1,1,1],[2,1,1,1,1,1],[1,1,2,1,1,1],[3,1,1,1,1,1],[1,2,1,1,2,2],[2,2,1,2,2,2],[2,2,1,1,2,1],[2,2,2,2,2,1],[1,3,3,1,3,2],[3,3,3,3,3,1],[3,1,1,3,3,2],[1,2,1,2,1,1],[3,2,2,2,1,1],[2,2,1,1,2,2],[3,1,1,3,3,1],[1,1,2,2,2,1]])
+    y = np.array([1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0])
     x = pd.DataFrame(x,columns=['seze','gendi','qiaosheng','wenli','qibu','chugan'])
     y = pd.Series(y)
     tree=a.fit(x,y)
-    print tree
+    test = np.array([[1,1,1,1,1,1]])
+    test = pd.DataFrame(test,columns=['seze','gendi','qiaosheng','wenli','qibu','chugan'])
+    print a.predict(test)
