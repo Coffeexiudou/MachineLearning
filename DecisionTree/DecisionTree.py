@@ -37,6 +37,11 @@ class DecisionTree:
             except:
                 raise TypeError('pandas.DataFrame required for X')
         def __classify(tree,sample):
+            """
+            通过第一个最佳分割属性，获取要预测样本的对应属性值
+            若该属性值对应value为字典，则递归
+            否则，返回对应类别
+            """
             firstFeatureIndex = tree.keys()[0]
             firstFeatureDict = tree[firstFeatureIndex]
             featureVal = sample[firstFeatureIndex]
@@ -95,6 +100,11 @@ class DecisionTree:
         return  index[bestSplitFeatureIndex],bestSplitFeatureIndex
         
     def __create_tree(self,X,y,featureIndexList):
+        """
+        用字典存储树
+        例如
+        {'wenli': {1: {'chugan': {1: 1, 2: {'seze': {1: {'qiaosheng': {1: 1, 3: 0}}, 2: 0}}}}, 2: {'qibu': {1: 0, 2: {'gendi': {1: 0, 2: 1}}}}, 3: 0}}
+        """
         if len(featureIndexList) == 0:
         #当属性集为空时，返回当前结点中样本最多的类别
             return self.__compute_majority_cnt(y)
@@ -125,6 +135,7 @@ if __name__ == '__main__':
     x = pd.DataFrame(x,columns=['seze','gendi','qiaosheng','wenli','qibu','chugan'])
     y = pd.Series(y)
     tree=a.fit(x,y)
+    print tree 
     test = np.array([[1,1,1,1,1,1]])
     test = pd.DataFrame(test,columns=['seze','gendi','qiaosheng','wenli','qibu','chugan'])
     print a.predict(test)
