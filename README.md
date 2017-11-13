@@ -10,3 +10,5 @@ study ML by python
 [LogisticRegression](https://github.com/Coffeexiudou/MachineLearning/tree/master/LogisticRegression) 逻辑斯特回归　二分类
 
 [DecisionTree](https://github.com/Coffeexiudou/MachineLearning/tree/master/DecisionTree) 决策树
+
+[SVM](https://github.com/Coffeexiudou/MachineLearning/blob/master/SVM/SVM.ipynb)　SVM支持向量机，只有公式推导
