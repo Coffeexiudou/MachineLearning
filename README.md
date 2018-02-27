@@ -12,3 +12,5 @@ study ML by python
 [DecisionTree](https://github.com/Coffeexiudou/MachineLearning/tree/master/DecisionTree) 决策树
 
 [SVM](https://github.com/Coffeexiudou/MachineLearning/blob/master/SVM/SVM.ipynb)　SVM支持向量机，只有公式推导
+
+[Apriori](https://github.com/Coffeexiudou/MachineLearning/blob/master/Apriori/Apriori.py) 频繁集挖掘，关联分析算法
